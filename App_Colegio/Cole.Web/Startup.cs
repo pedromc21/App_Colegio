@@ -20,10 +20,10 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Install-Package Microsoft.EntityFrameworkCore.SqlServer
-            //Install-Package Microsoft.EntityFrameworkCore.Tools –Pre
-            //Install-Package Microsoft.EntityFrameworkCore.SqlServer.Design
-            //Scaffold-DbContext "Server=187.189.47.222,1501;Database=Escolar20;Trusted_Connection=False;User Id=sa;password=SQLimex.18;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+            /*Crear Data Base
+             dotnet ef database update
+            dotnet ef migrations add InitialDb
+            dotnet ef database update*/
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
