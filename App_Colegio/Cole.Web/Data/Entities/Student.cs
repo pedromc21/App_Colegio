@@ -30,5 +30,9 @@
         [Display(Name = "Nivel Educativo")]
         [MaxLength(20)]
         public string Nivel { get; set; }
+
+        [Display(Name = "Grado")]
+        [MaxLength(50)]
+        public string Grado { get; set; }
     }
 }
