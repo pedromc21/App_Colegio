@@ -26,5 +26,9 @@
         [Display(Name = "Clave_Familia")]
         [MaxLength(20)]
         public string Clave_Familia { get; set; }
+
+        [Display(Name = "Nivel Educativo")]
+        [MaxLength(20)]
+        public string Nivel { get; set; }
     }
 }
