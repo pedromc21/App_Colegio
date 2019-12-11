@@ -25,24 +25,31 @@ namespace Cole.Web.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Apellido_Materno")
+                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("Apellido_Paterno")
+                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("Clave_Familia")
+                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.Property<string>("Grado")
+                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<string>("Matricula")
+                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.Property<string>("Nivel")
+                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.Property<string>("Nombres")
+                        .IsRequired()
                         .HasMaxLength(50);
 
                     b.Property<int>("Persona_Id");

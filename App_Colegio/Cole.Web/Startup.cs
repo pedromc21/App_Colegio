@@ -1,5 +1,6 @@
 ﻿namespace Cole.Web
 {
+    using Cole.Web.Data;
     using Cole.Web.Data.Entities;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
@@ -28,6 +29,9 @@
             {
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
+            //inyectar el Repository
+            //AddScoped = La Inyeccion queda permante
+            services.AddScoped<IRepository, Repository>();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
