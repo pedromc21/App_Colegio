@@ -1,7 +1,7 @@
 ﻿namespace Cole.Web.Data.Entities
 {
     using System.ComponentModel.DataAnnotations;
-    public class Student
+    public class Student : IEntity
     {
         //Cambios a a tablas
         //dotnet ef migrations add ModifyStudents

@@ -1,7 +1,8 @@
 ﻿namespace Cole.Web
 {
-    using Cole.Web.Data;
-    using Cole.Web.Data.Entities;
+    using Data;
+    using Data.Entities;
+    using Helpers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -33,7 +34,7 @@
             //inyectar el Repository
             //AddScoped = La Inyeccion queda permante
             services.AddScoped<IRepository, Repository>();
-
+            services.AddScoped<IUserHelper, UserHelper>();
             //Configuracion de Usuarios:
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
@@ -53,7 +54,6 @@
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
