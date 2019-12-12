@@ -44,5 +44,8 @@
         [MaxLength(50, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
         [Required]
         public string Grado { get; set; }
+
+        //Relacion con la tabla User
+        public User User { get; set; }
     }
 }
