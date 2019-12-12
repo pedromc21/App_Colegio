@@ -1,24 +1,28 @@
 ﻿namespace Cole.Web.Controllers
 {
-    using Data;
+    using Cole.Web.Data;
+    using Cole.Web.Helpers;
     using Data.Entities;
+    using Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
 
     public class StudentsController : Controller
     {
-        private readonly IRepository repository;
-
-        public StudentsController(IRepository repository)
+        private readonly IStudentRepository studentRepository;
+        private readonly IUserHelper userHelper;
+        
+        public StudentsController(IStudentRepository studentRepository, IUserHelper userHelper)
         {
-            this.repository = repository;
+            this.studentRepository = studentRepository;
+            this.userHelper = userHelper; 
         }
 
         // GET: Students
         public IActionResult Index()
         {
-            return View(this.repository.GetStudents());
+            return View(this.studentRepository.GetAll());
         }
 
         // GET: Students/Details/5
@@ -29,7 +33,7 @@
                 return NotFound();
             }
 
-            var student = this.repository.GetStudent(id.Value);
+            var student = this.studentRepository.GetByIdAsync(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -50,8 +54,7 @@
         {
             if (ModelState.IsValid)
             {
-                this.repository.AddStudent(student);
-                await this.repository.SaveAllAsync();
+                await this.studentRepository.CreateAsync (student);
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
@@ -64,7 +67,7 @@
             {
                 return NotFound();
             }
-            var student = this.repository.GetStudent(id.Value);
+            var student = this.studentRepository.GetByIdAsync(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -81,12 +84,11 @@
             {
                 try
                 {
-                    this.repository.UpdateStudent(student);
-                    await this.repository.SaveAllAsync();
+                    await this.studentRepository.UpdateAsync(student);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!this.repository.StudentExists(student.Clave_Familia))
+                    if (! await this.studentRepository.ExistAsync(student.Id))
                     {
                         return NotFound();
                     }
@@ -108,7 +110,7 @@
                 return NotFound();
             }
 
-            var student = this.repository.GetStudent(id.Value);
+            var student = this.studentRepository.GetByIdAsync(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -121,9 +123,8 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = this.repository.GetStudent(id);
-            this.repository.RemoveStudent(student);
-            await this.repository.SaveAllAsync();
+            var student = await this.studentRepository.GetByIdAsync(id);
+            await this.studentRepository.DeleteAsync(student);
             return RedirectToAction(nameof(Index));
         }
     }
