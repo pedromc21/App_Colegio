@@ -41,13 +41,99 @@ namespace Cole.Web.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Usuario_Id = table.Column<int>(nullable: false),
                     Persona_Id = table.Column<int>(nullable: false),
                     Clave_Familia = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Cargos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Persona_Id = table.Column<int>(nullable: false),
+                    IdCiclo = table.Column<int>(nullable: false),
+                    LLaveRef = table.Column<int>(nullable: false),
+                    Plantel = table.Column<string>(maxLength: 50, nullable: false),
+                    Concepto = table.Column<string>(maxLength: 250, nullable: false),
+                    Total = table.Column<decimal>(nullable: false),
+                    Recargo = table.Column<decimal>(nullable: false),
+                    Abono = table.Column<decimal>(nullable: false),
+                    Saldo = table.Column<decimal>(nullable: false),
+                    FechaVencimiento = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cargos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Grupos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Persona_Id = table.Column<int>(nullable: false),
+                    Clave = table.Column<string>(maxLength: 50, nullable: false),
+                    NameGrupo = table.Column<string>(maxLength: 50, nullable: false),
+                    TipoGrupo = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Grupos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pagos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LLaveRef_Enc = table.Column<int>(nullable: false),
+                    Folio = table.Column<string>(maxLength: 50, nullable: false),
+                    Serie_Factura = table.Column<string>(maxLength: 50, nullable: false),
+                    Factura = table.Column<string>(maxLength: 50, nullable: false),
+                    Importe = table.Column<decimal>(nullable: false),
+                    Descuento = table.Column<decimal>(nullable: false),
+                    Abono = table.Column<decimal>(nullable: false),
+                    Recargo = table.Column<decimal>(nullable: false),
+                    TotalAbono = table.Column<decimal>(nullable: false),
+                    FechaAbono = table.Column<DateTime>(nullable: false),
+                    TipoPago = table.Column<string>(maxLength: 50, nullable: false),
+                    Banco = table.Column<string>(maxLength: 50, nullable: false),
+                    Referencia = table.Column<string>(maxLength: 50, nullable: false),
+                    Estatus = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pagos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Students",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Persona_Id = table.Column<int>(nullable: false),
+                    Clave_Plantel = table.Column<string>(maxLength: 50, nullable: false),
+                    Plantel = table.Column<string>(maxLength: 50, nullable: false),
+                    Matricula = table.Column<string>(maxLength: 20, nullable: false),
+                    Clave_Familia = table.Column<string>(maxLength: 20, nullable: false),
+                    Apellido_Paterno = table.Column<string>(maxLength: 50, nullable: false),
+                    Apellido_Materno = table.Column<string>(maxLength: 50, nullable: false),
+                    Nombres = table.Column<string>(maxLength: 50, nullable: false),
+                    Nivel = table.Column<string>(maxLength: 20, nullable: false),
+                    Grado = table.Column<string>(maxLength: 50, nullable: false),
+                    Grupo = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Students", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -157,26 +243,25 @@ namespace Cole.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Students",
+                name: "Tutors",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Persona_Id = table.Column<int>(nullable: false),
+                    Clave_Familia = table.Column<string>(maxLength: 20, nullable: false),
                     Apellido_Paterno = table.Column<string>(maxLength: 50, nullable: false),
                     Apellido_Materno = table.Column<string>(maxLength: 50, nullable: false),
                     Nombres = table.Column<string>(maxLength: 50, nullable: false),
-                    Matricula = table.Column<string>(maxLength: 20, nullable: false),
-                    Clave_Familia = table.Column<string>(maxLength: 20, nullable: false),
-                    Nivel = table.Column<string>(maxLength: 20, nullable: false),
-                    Grado = table.Column<string>(maxLength: 50, nullable: false),
+                    Parentesco = table.Column<string>(maxLength: 20, nullable: false),
+                    Tutor_Principal = table.Column<bool>(maxLength: 20, nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Students", x => x.Id);
+                    table.PrimaryKey("PK_Tutors", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Students_AspNetUsers_UserId",
+                        name: "FK_Tutors_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -223,8 +308,8 @@ namespace Cole.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Students_UserId",
-                table: "Students",
+                name: "IX_Tutors_UserId",
+                table: "Tutors",
                 column: "UserId");
         }
 
@@ -246,7 +331,19 @@ namespace Cole.Web.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Cargos");
+
+            migrationBuilder.DropTable(
+                name: "Grupos");
+
+            migrationBuilder.DropTable(
+                name: "Pagos");
+
+            migrationBuilder.DropTable(
                 name: "Students");
+
+            migrationBuilder.DropTable(
+                name: "Tutors");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

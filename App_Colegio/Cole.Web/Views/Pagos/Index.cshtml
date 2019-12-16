@@ -1,0 +1,113 @@
+﻿@model IEnumerable<Cole.Web.Data.Entities.Pago>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LLaveRef_Enc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Folio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Serie_Factura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Factura)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Importe)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descuento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Abono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Recargo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAbono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaAbono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TipoPago)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Banco)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Referencia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LLaveRef_Enc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Folio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Serie_Factura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Factura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Importe)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descuento)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Abono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Recargo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalAbono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaAbono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoPago)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Banco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Referencia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estatus)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using Cole.Web.Data;
-using Cole.Web.Data.Entities;
-
+﻿
 namespace Cole.Web.Controllers
 {
-    public class StudentsController : Controller
+    using Cole.Web.Data;
+    using Cole.Web.Data.Entities;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+    using System.Linq;
+    using System.Threading.Tasks;
+    public class TutorsController : Controller
     {
         private readonly DataContext _context;
 
-        public StudentsController(DataContext context)
+        public TutorsController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Students
+        // GET: Tutors
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(await _context.Tutors.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: Tutors/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +30,39 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var tutor = await _context.Tutors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (tutor == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(tutor);
         }
 
-        // GET: Students/Create
+        // GET: Tutors/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Tutors/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Parentesco,Tutor_Principal")] Tutor tutor)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(tutor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(tutor);
         }
 
-        // GET: Students/Edit/5
+        // GET: Tutors/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +70,22 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var tutor = await _context.Tutors.FindAsync(id);
+            if (tutor == null)
             {
                 return NotFound();
             }
-            return View(student);
+            return View(tutor);
         }
 
-        // POST: Students/Edit/5
+        // POST: Tutors/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Parentesco,Tutor_Principal")] Tutor tutor)
         {
-            if (id != student.Id)
+            if (id != tutor.Id)
             {
                 return NotFound();
             }
@@ -97,12 +94,12 @@ namespace Cole.Web.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(tutor);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
+                    if (!TutorExists(tutor.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +110,10 @@ namespace Cole.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(tutor);
         }
 
-        // GET: Students/Delete/5
+        // GET: Tutors/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +121,30 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var tutor = await _context.Tutors
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (tutor == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(tutor);
         }
 
-        // POST: Students/Delete/5
+        // POST: Tutors/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
+            var tutor = await _context.Tutors.FindAsync(id);
+            _context.Tutors.Remove(tutor);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool TutorExists(int id)
         {
-            return _context.Students.Any(e => e.Id == id);
+            return _context.Tutors.Any(e => e.Id == id);
         }
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cole.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191212142412_InitialDb")]
+    [Migration("20191214182758_InitialDb")]
     partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,117 @@ namespace Cole.Web.Migrations
                 .HasAnnotation("ProductVersion", "2.1.14-servicing-32113")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Cole.Web.Data.Entities.Cargo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Abono");
+
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasMaxLength(250);
+
+                    b.Property<DateTime>("FechaVencimiento");
+
+                    b.Property<int>("IdCiclo");
+
+                    b.Property<int>("LLaveRef");
+
+                    b.Property<int>("Persona_Id");
+
+                    b.Property<string>("Plantel")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("Recargo");
+
+                    b.Property<decimal>("Saldo");
+
+                    b.Property<decimal>("Total");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cargos");
+                });
+
+            modelBuilder.Entity("Cole.Web.Data.Entities.Grupo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Clave")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("NameGrupo")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Persona_Id");
+
+                    b.Property<string>("TipoGrupo")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Grupos");
+                });
+
+            modelBuilder.Entity("Cole.Web.Data.Entities.Pago", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("Abono");
+
+                    b.Property<string>("Banco")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("Descuento");
+
+                    b.Property<bool>("Estatus");
+
+                    b.Property<string>("Factura")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<DateTime>("FechaAbono");
+
+                    b.Property<string>("Folio")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("Importe");
+
+                    b.Property<int>("LLaveRef_Enc");
+
+                    b.Property<decimal>("Recargo");
+
+                    b.Property<string>("Referencia")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Serie_Factura")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("TipoPago")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<decimal>("TotalAbono");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pagos");
+                });
 
             modelBuilder.Entity("Cole.Web.Data.Entities.Student", b =>
                 {
@@ -39,7 +150,15 @@ namespace Cole.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(20);
 
+                    b.Property<string>("Clave_Plantel")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
                     b.Property<string>("Grado")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Grupo")
                         .IsRequired()
                         .HasMaxLength(50);
 
@@ -57,13 +176,53 @@ namespace Cole.Web.Migrations
 
                     b.Property<int>("Persona_Id");
 
+                    b.Property<string>("Plantel")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Students");
+                });
+
+            modelBuilder.Entity("Cole.Web.Data.Entities.Tutor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Apellido_Materno")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Apellido_Paterno")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Clave_Familia")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<string>("Nombres")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Parentesco")
+                        .IsRequired()
+                        .HasMaxLength(20);
+
+                    b.Property<int>("Persona_Id");
+
+                    b.Property<bool>("Tutor_Principal")
+                        .HasMaxLength(20);
+
                     b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Students");
+                    b.ToTable("Tutors");
                 });
 
             modelBuilder.Entity("Cole.Web.Data.Entities.User", b =>
@@ -107,8 +266,6 @@ namespace Cole.Web.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
-
-                    b.Property<int>("Usuario_Id");
 
                     b.HasKey("Id");
 
@@ -233,7 +390,7 @@ namespace Cole.Web.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Cole.Web.Data.Entities.Student", b =>
+            modelBuilder.Entity("Cole.Web.Data.Entities.Tutor", b =>
                 {
                     b.HasOne("Cole.Web.Data.Entities.User", "User")
                         .WithMany()

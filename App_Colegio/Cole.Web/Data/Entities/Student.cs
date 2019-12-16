@@ -10,8 +10,28 @@
 
         public int Persona_Id { get; set; }
 
+        [Display(Name = "Clave Plantel")]
+        [MaxLength(50, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
+        [Required]
+        public string Clave_Plantel { get; set; }
+
+        [Display(Name = "Plantel")]
+        [MaxLength(50, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
+        [Required]
+        public string Plantel { get; set; }
+
+        [Display(Name = "Matricula")]
+        [MaxLength(20, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
+        [Required]
+        public string Matricula { get; set; }
+
+        [Display(Name = "Clave_Familia")]
+        [MaxLength(20, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
+        [Required]
+        public string Clave_Familia { get; set; }
+
         [Display(Name = "Apellido Paterno")]
-        [MaxLength(50, ErrorMessage="El {0} solo puede contener {1} de longitud")]
+        [MaxLength(50, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
         [Required]
         public string Apellido_Paterno { get; set; }
 
@@ -25,16 +45,6 @@
         [Required]
         public string Nombres { get; set; }
 
-        [Display(Name = "Matricula")]
-        [MaxLength(20, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
-        [Required]
-        public string Matricula { get; set; }
-
-        [Display(Name = "Clave_Familia")]
-        [MaxLength(20, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
-        [Required]
-        public string Clave_Familia { get; set; }
-
         [Display(Name = "Nivel Educativo")]
         [MaxLength(20, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
         [Required]
@@ -45,7 +55,10 @@
         [Required]
         public string Grado { get; set; }
 
-        //Relacion con la tabla User
-        public User User { get; set; }
+        [Display(Name = "Grupo")]
+        [MaxLength(50, ErrorMessage = "El {0} solo puede contener {1} de longitud")]
+        [Required]
+        public string Grupo { get; set; }
+
     }
 }

@@ -10,22 +10,22 @@ using Cole.Web.Data.Entities;
 
 namespace Cole.Web.Controllers
 {
-    public class StudentsController : Controller
+    public class PagosController : Controller
     {
         private readonly DataContext _context;
 
-        public StudentsController(DataContext context)
+        public PagosController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Students
+        // GET: Pagos
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(await _context.Pagos.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: Pagos/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var pago = await _context.Pagos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (pago == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(pago);
         }
 
-        // GET: Students/Create
+        // GET: Pagos/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Pagos/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,LLaveRef_Enc,Folio,Serie_Factura,Factura,Importe,Descuento,Abono,Recargo,TotalAbono,FechaAbono,TipoPago,Banco,Referencia,Estatus")] Pago pago)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(pago);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(pago);
         }
 
-        // GET: Students/Edit/5
+        // GET: Pagos/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var pago = await _context.Pagos.FindAsync(id);
+            if (pago == null)
             {
                 return NotFound();
             }
-            return View(student);
+            return View(pago);
         }
 
-        // POST: Students/Edit/5
+        // POST: Pagos/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,LLaveRef_Enc,Folio,Serie_Factura,Factura,Importe,Descuento,Abono,Recargo,TotalAbono,FechaAbono,TipoPago,Banco,Referencia,Estatus")] Pago pago)
         {
-            if (id != student.Id)
+            if (id != pago.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Cole.Web.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(pago);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
+                    if (!PagoExists(pago.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Cole.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(pago);
         }
 
-        // GET: Students/Delete/5
+        // GET: Pagos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var pago = await _context.Pagos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (pago == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(pago);
         }
 
-        // POST: Students/Delete/5
+        // POST: Pagos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
+            var pago = await _context.Pagos.FindAsync(id);
+            _context.Pagos.Remove(pago);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool PagoExists(int id)
         {
-            return _context.Students.Any(e => e.Id == id);
+            return _context.Pagos.Any(e => e.Id == id);
         }
     }
 }

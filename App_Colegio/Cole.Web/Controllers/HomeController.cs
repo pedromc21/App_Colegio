@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Cole.Web.Models;
-
-namespace Cole.Web.Controllers
+﻿namespace Cole.Web.Controllers
 {
+    using Cole.Web.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using System.Diagnostics;
     public class HomeController : Controller
     {
         public IActionResult Index()

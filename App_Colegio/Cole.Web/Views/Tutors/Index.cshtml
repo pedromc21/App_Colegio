@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Cole.Web.Data.Entities.Student>
+﻿@model IEnumerable<Cole.Web.Data.Entities.Tutor>
 
 @{
     ViewData["Title"] = "Index";
@@ -16,15 +16,6 @@
                 @Html.DisplayNameFor(model => model.Persona_Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Clave_Plantel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Plantel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Matricula)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Clave_Familia)
             </th>
             <th>
@@ -37,13 +28,10 @@
                 @Html.DisplayNameFor(model => model.Nombres)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Nivel)
+                @Html.DisplayNameFor(model => model.Parentesco)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Grado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Grupo)
+                @Html.DisplayNameFor(model => model.Tutor_Principal)
             </th>
             <th></th>
         </tr>
@@ -53,15 +41,6 @@
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Persona_Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Clave_Plantel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Plantel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Matricula)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Clave_Familia)
@@ -76,13 +55,10 @@
                 @Html.DisplayFor(modelItem => item.Nombres)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Nivel)
+                @Html.DisplayFor(modelItem => item.Parentesco)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Grado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Grupo)
+                @Html.DisplayFor(modelItem => item.Tutor_Principal)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

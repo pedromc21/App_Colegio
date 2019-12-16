@@ -1,4 +1,4 @@
-﻿@model Cole.Web.Data.Entities.Student
+﻿@model Cole.Web.Data.Entities.Tutor
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Student</h4>
+    <h4>Tutor</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -15,24 +15,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Persona_Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Clave_Plantel)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Clave_Plantel)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Plantel)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Plantel)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Matricula)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Matricula)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Clave_Familia)
@@ -59,22 +41,16 @@
             @Html.DisplayFor(model => model.Nombres)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Nivel)
+            @Html.DisplayNameFor(model => model.Parentesco)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Nivel)
+            @Html.DisplayFor(model => model.Parentesco)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.Grado)
+            @Html.DisplayNameFor(model => model.Tutor_Principal)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Grado)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Grupo)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Grupo)
+            @Html.DisplayFor(model => model.Tutor_Principal)
         </dd>
     </dl>
 </div>

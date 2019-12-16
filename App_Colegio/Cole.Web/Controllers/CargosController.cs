@@ -10,22 +10,22 @@ using Cole.Web.Data.Entities;
 
 namespace Cole.Web.Controllers
 {
-    public class StudentsController : Controller
+    public class CargosController : Controller
     {
         private readonly DataContext _context;
 
-        public StudentsController(DataContext context)
+        public CargosController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Students
+        // GET: Cargoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(await _context.Cargos.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: Cargoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var cargo = await _context.Cargos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (cargo == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(cargo);
         }
 
-        // GET: Students/Create
+        // GET: Cargoes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Cargoes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Persona_Id,IdCiclo,LLaveRef,Plantel,Concepto,Total,Recargo,Abono,Saldo,FechaVencimiento")] Cargo cargo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(cargo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(cargo);
         }
 
-        // GET: Students/Edit/5
+        // GET: Cargoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var cargo = await _context.Cargos.FindAsync(id);
+            if (cargo == null)
             {
                 return NotFound();
             }
-            return View(student);
+            return View(cargo);
         }
 
-        // POST: Students/Edit/5
+        // POST: Cargoes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,IdCiclo,LLaveRef,Plantel,Concepto,Total,Recargo,Abono,Saldo,FechaVencimiento")] Cargo cargo)
         {
-            if (id != student.Id)
+            if (id != cargo.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Cole.Web.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(cargo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
+                    if (!CargoExists(cargo.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Cole.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(cargo);
         }
 
-        // GET: Students/Delete/5
+        // GET: Cargoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var cargo = await _context.Cargos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (cargo == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(cargo);
         }
 
-        // POST: Students/Delete/5
+        // POST: Cargoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
+            var cargo = await _context.Cargos.FindAsync(id);
+            _context.Cargos.Remove(cargo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool CargoExists(int id)
         {
-            return _context.Students.Any(e => e.Id == id);
+            return _context.Cargos.Any(e => e.Id == id);
         }
     }
 }

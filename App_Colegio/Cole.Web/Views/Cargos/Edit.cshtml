@@ -1,0 +1,79 @@
+﻿@model Cole.Web.Data.Entities.Cargo
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>Cargo</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Persona_Id" class="control-label"></label>
+                <input asp-for="Persona_Id" class="form-control" />
+                <span asp-validation-for="Persona_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCiclo" class="control-label"></label>
+                <input asp-for="IdCiclo" class="form-control" />
+                <span asp-validation-for="IdCiclo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LLaveRef" class="control-label"></label>
+                <input asp-for="LLaveRef" class="form-control" />
+                <span asp-validation-for="LLaveRef" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plantel" class="control-label"></label>
+                <input asp-for="Plantel" class="form-control" />
+                <span asp-validation-for="Plantel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Concepto" class="control-label"></label>
+                <input asp-for="Concepto" class="form-control" />
+                <span asp-validation-for="Concepto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Total" class="control-label"></label>
+                <input asp-for="Total" class="form-control" />
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Recargo" class="control-label"></label>
+                <input asp-for="Recargo" class="form-control" />
+                <span asp-validation-for="Recargo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Abono" class="control-label"></label>
+                <input asp-for="Abono" class="form-control" />
+                <span asp-validation-for="Abono" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Saldo" class="control-label"></label>
+                <input asp-for="Saldo" class="form-control" />
+                <span asp-validation-for="Saldo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FechaVencimiento" class="control-label"></label>
+                <input asp-for="FechaVencimiento" class="form-control" />
+                <span asp-validation-for="FechaVencimiento" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

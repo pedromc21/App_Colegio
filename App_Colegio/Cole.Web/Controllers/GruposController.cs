@@ -10,22 +10,22 @@ using Cole.Web.Data.Entities;
 
 namespace Cole.Web.Controllers
 {
-    public class StudentsController : Controller
+    public class GruposController : Controller
     {
         private readonly DataContext _context;
 
-        public StudentsController(DataContext context)
+        public GruposController(DataContext context)
         {
             _context = context;
         }
 
-        // GET: Students
+        // GET: Grupoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(await _context.Grupos.ToListAsync());
         }
 
-        // GET: Students/Details/5
+        // GET: Grupoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +33,39 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var grupo = await _context.Grupos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (grupo == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(grupo);
         }
 
-        // GET: Students/Create
+        // GET: Grupoes/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Students/Create
+        // POST: Grupoes/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave,NameGrupo,TipoGrupo")] Grupo grupo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
+                _context.Add(grupo);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(grupo);
         }
 
-        // GET: Students/Edit/5
+        // GET: Grupoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +73,22 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
-            if (student == null)
+            var grupo = await _context.Grupos.FindAsync(id);
+            if (grupo == null)
             {
                 return NotFound();
             }
-            return View(student);
+            return View(grupo);
         }
 
-        // POST: Students/Edit/5
+        // POST: Grupoes/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave,NameGrupo,TipoGrupo")] Grupo grupo)
         {
-            if (id != student.Id)
+            if (id != grupo.Id)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace Cole.Web.Controllers
             {
                 try
                 {
-                    _context.Update(student);
+                    _context.Update(grupo);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
+                    if (!GrupoExists(grupo.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +113,10 @@ namespace Cole.Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(student);
+            return View(grupo);
         }
 
-        // GET: Students/Delete/5
+        // GET: Grupoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +124,30 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
+            var grupo = await _context.Grupos
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (student == null)
+            if (grupo == null)
             {
                 return NotFound();
             }
 
-            return View(student);
+            return View(grupo);
         }
 
-        // POST: Students/Delete/5
+        // POST: Grupoes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
+            var grupo = await _context.Grupos.FindAsync(id);
+            _context.Grupos.Remove(grupo);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
+        private bool GrupoExists(int id)
         {
-            return _context.Students.Any(e => e.Id == id);
+            return _context.Grupos.Any(e => e.Id == id);
         }
     }
 }
