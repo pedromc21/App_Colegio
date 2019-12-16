@@ -8,6 +8,7 @@
         //dotnet ef database update
         public int Id { get; set; }
 
+        [ScaffoldColumn(false)]
         public int Persona_Id { get; set; }
 
         [Display(Name = "Clave Plantel")]

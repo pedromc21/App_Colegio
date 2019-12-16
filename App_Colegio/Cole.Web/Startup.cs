@@ -33,7 +33,12 @@
             });
             //inyectar el Repository
             //AddScoped = La Inyeccion queda permante
+            //services.AddScoped<ITutorRepository, TutorRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
+            //services.AddScoped<IGrupoRepository, GrupoRepository>();
+            //services.AddScoped<ICargoRepository, CargoRepository>();
+            //services.AddScoped<IPagoRepository, PagoRepository>();
+
             services.AddScoped<IUserHelper, UserHelper>();
             //Configuracion de Usuarios:
             services.AddIdentity<User, IdentityRole>(cfg =>

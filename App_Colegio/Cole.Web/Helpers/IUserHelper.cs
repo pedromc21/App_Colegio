@@ -1,11 +1,13 @@
 ﻿namespace Cole.Web.Helpers
 {
-    using System.Threading.Tasks;
     using Data.Entities;
     using Microsoft.AspNetCore.Identity;
+    using System.Threading.Tasks;
     public interface IUserHelper
     {
+        //Clase para ayudar a transportar de proyecto a proyecto
         Task<User> GetUserByEmailAsync(string email);
-        Task<IdentityResult> AddUserAsync(User user, string password);
+        Task<IdentityResult> UpdateUserAsync(User user, string password);
+
     }
 }

@@ -10,6 +10,7 @@
         public DbSet<Grupo> Grupos{ get; set; }
         public DbSet<Cargo> Cargos { get; set; }
         public DbSet<Pago> Pagos { get; set; }
+        public DbSet<Period> Periods { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {

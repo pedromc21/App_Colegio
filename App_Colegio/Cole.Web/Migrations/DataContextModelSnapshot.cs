@@ -25,7 +25,8 @@ namespace Cole.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Abono");
+                    b.Property<decimal>("Abono")
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<string>("Concepto")
                         .IsRequired()
@@ -43,11 +44,14 @@ namespace Cole.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<decimal>("Recargo");
+                    b.Property<decimal>("Recargo")
+                        .HasColumnType("decimal(12,2)");
 
-                    b.Property<decimal>("Saldo");
+                    b.Property<decimal>("Saldo")
+                        .HasColumnType("decimal(12,2)");
 
-                    b.Property<decimal>("Total");
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(12,2)");
 
                     b.HasKey("Id");
 
@@ -85,13 +89,15 @@ namespace Cole.Web.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Abono");
+                    b.Property<decimal>("Abono")
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<string>("Banco")
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<decimal>("Descuento");
+                    b.Property<decimal>("Descuento")
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<bool>("Estatus");
 
@@ -105,11 +111,13 @@ namespace Cole.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<decimal>("Importe");
+                    b.Property<decimal>("Importe")
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<int>("LLaveRef_Enc");
 
-                    b.Property<decimal>("Recargo");
+                    b.Property<decimal>("Recargo")
+                        .HasColumnType("decimal(12,2)");
 
                     b.Property<string>("Referencia")
                         .IsRequired()
@@ -123,7 +131,8 @@ namespace Cole.Web.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<decimal>("TotalAbono");
+                    b.Property<decimal>("TotalAbono")
+                        .HasColumnType("decimal(12,2)");
 
                     b.HasKey("Id");
 

@@ -3,6 +3,7 @@ namespace Cole.Web.Controllers
 {
     using Cole.Web.Data;
     using Cole.Web.Data.Entities;
+    using Cole.Web.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using System.Linq;
@@ -10,10 +11,12 @@ namespace Cole.Web.Controllers
     public class TutorsController : Controller
     {
         private readonly DataContext _context;
+        private readonly IUserHelper userHelper;
 
-        public TutorsController(DataContext context)
+        public TutorsController(DataContext context, IUserHelper userHelper)
         {
             _context = context;
+            this.userHelper = userHelper;
         }
 
         // GET: Tutors
@@ -47,14 +50,15 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Tutors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Parentesco,Tutor_Principal")] Tutor tutor)
+        public async Task<IActionResult> Create(Tutor tutor)
         {
             if (ModelState.IsValid)
             {
+                //TODO: CHANGE FOR THE LOGGER USER
+                //TODO: SON CAMBIOS PENDIENTES QUE SE PUEDEN VER DESDE EL TAG LIST DESDE EL MENU VIEW->TASK LIST
+                tutor.User = await this.userHelper.GetUserByEmailAsync("pedromc219@gmail.com");
                 _context.Add(tutor);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -79,21 +83,16 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Tutors/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Parentesco,Tutor_Principal")] Tutor tutor)
+        public async Task<IActionResult> Edit(int id, Tutor tutor)
         {
-            if (id != tutor.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    //TODO: CHANGE FOR THE LOGGER USER
+                    tutor.User = await this.userHelper.GetUserByEmailAsync("pedromc219@gmail.com");
                     _context.Update(tutor);
                     await _context.SaveChangesAsync();
                 }

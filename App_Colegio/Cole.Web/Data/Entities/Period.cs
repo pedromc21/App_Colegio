@@ -6,6 +6,8 @@ namespace Cole.Web.Data.Entities
     public class Period : IEntity
     {
         public int Id { get; set; }
+
+        [ScaffoldColumn(false)]
         public int Periodo_Id { get; set; }
 
         [Display(Name = "Ciclo Escolar")]
