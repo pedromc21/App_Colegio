@@ -10,19 +10,19 @@ namespace Cole.Web.Controllers
     using System.Threading.Tasks;
     public class TutorsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly ITutorRepository tutorRepository;
         private readonly IUserHelper userHelper;
 
-        public TutorsController(DataContext context, IUserHelper userHelper)
+        public TutorsController(ITutorRepository tutorRepository, IUserHelper userHelper)
         {
-            _context = context;
+            this.tutorRepository = tutorRepository;
             this.userHelper = userHelper;
         }
 
         // GET: Tutors
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Tutors.ToListAsync());
+            return View(this.tutorRepository.GetAll());
         }
 
         // GET: Tutors/Details/5
@@ -33,8 +33,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var tutor = await _context.Tutors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var tutor = await this.tutorRepository.GetByIdAsync(id.Value);
             if (tutor == null)
             {
                 return NotFound();
@@ -59,8 +58,7 @@ namespace Cole.Web.Controllers
                 //TODO: CHANGE FOR THE LOGGER USER
                 //TODO: SON CAMBIOS PENDIENTES QUE SE PUEDEN VER DESDE EL TAG LIST DESDE EL MENU VIEW->TASK LIST
                 tutor.User = await this.userHelper.GetUserByEmailAsync("pedromc219@gmail.com");
-                _context.Add(tutor);
-                await _context.SaveChangesAsync();
+                await this.tutorRepository.CreateAsync(tutor);
                 return RedirectToAction(nameof(Index));
             }
             return View(tutor);
@@ -74,7 +72,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var tutor = await _context.Tutors.FindAsync(id);
+            var tutor = await this.tutorRepository.GetByIdAsync(id.Value);
             if (tutor == null)
             {
                 return NotFound();
@@ -93,12 +91,11 @@ namespace Cole.Web.Controllers
                 {
                     //TODO: CHANGE FOR THE LOGGER USER
                     tutor.User = await this.userHelper.GetUserByEmailAsync("pedromc219@gmail.com");
-                    _context.Update(tutor);
-                    await _context.SaveChangesAsync();
+                    await this.tutorRepository.UpdateAsync(tutor);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TutorExists(tutor.Id))
+                    if (!await this.tutorRepository.ExistAsync(tutor.Id))
                     {
                         return NotFound();
                     }
@@ -120,8 +117,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var tutor = await _context.Tutors
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var tutor = await this.tutorRepository.GetByIdAsync(id.Value);
             if (tutor == null)
             {
                 return NotFound();
@@ -135,15 +131,14 @@ namespace Cole.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var tutor = await _context.Tutors.FindAsync(id);
-            _context.Tutors.Remove(tutor);
-            await _context.SaveChangesAsync();
+            var tutor = await this.tutorRepository.GetByIdAsync(id);
+            await this.tutorRepository.DeleteAsync(tutor);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool TutorExists(int id)
-        {
-            return _context.Tutors.Any(e => e.Id == id);
-        }
+        //private bool TutorExists(int id)
+        //{
+        //    return _context.Tutors.Any(e => e.Id == id);
+        //}
     }
 }

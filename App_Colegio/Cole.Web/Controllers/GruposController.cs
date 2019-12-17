@@ -12,17 +12,17 @@ namespace Cole.Web.Controllers
 {
     public class GruposController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IGrupoRepository grupoRepository;
 
-        public GruposController(DataContext context)
+        public GruposController(IGrupoRepository grupoRepository)
         {
-            _context = context;
+            this.grupoRepository = grupoRepository;
         }
 
         // GET: Grupoes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Grupos.ToListAsync());
+            return View(this.grupoRepository.GetAll());
         }
 
         // GET: Grupoes/Details/5
@@ -33,8 +33,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var grupo = await _context.Grupos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var grupo = await this.grupoRepository.GetByIdAsync(id.Value);
             if (grupo == null)
             {
                 return NotFound();
@@ -50,16 +49,13 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Grupoes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave,NameGrupo,TipoGrupo")] Grupo grupo)
+        public async Task<IActionResult> Create(Grupo grupo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(grupo);
-                await _context.SaveChangesAsync();
+                await this.grupoRepository.CreateAsync(grupo);
                 return RedirectToAction(nameof(Index));
             }
             return View(grupo);
@@ -73,7 +69,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var grupo = await _context.Grupos.FindAsync(id);
+            var grupo = await this.grupoRepository.GetByIdAsync(id.Value);
             if (grupo == null)
             {
                 return NotFound();
@@ -82,27 +78,19 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Grupoes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave,NameGrupo,TipoGrupo")] Grupo grupo)
+        public async Task<IActionResult> Edit(int id, Grupo grupo)
         {
-            if (id != grupo.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(grupo);
-                    await _context.SaveChangesAsync();
+                    await this.grupoRepository.UpdateAsync(grupo);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GrupoExists(grupo.Id))
+                    if (!await this.grupoRepository.ExistAsync(grupo.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +112,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var grupo = await _context.Grupos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var grupo = await this.grupoRepository.GetByIdAsync(id.Value);
             if (grupo == null)
             {
                 return NotFound();
@@ -139,15 +126,14 @@ namespace Cole.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var grupo = await _context.Grupos.FindAsync(id);
-            _context.Grupos.Remove(grupo);
-            await _context.SaveChangesAsync();
+            var grupo = await this.grupoRepository.GetByIdAsync(id);
+            await this.grupoRepository.DeleteAsync(grupo);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GrupoExists(int id)
-        {
-            return _context.Grupos.Any(e => e.Id == id);
-        }
+        //private bool GrupoExists(int id)
+        //{
+        //    return _context.Grupos.Any(e => e.Id == id);
+        //}
     }
 }

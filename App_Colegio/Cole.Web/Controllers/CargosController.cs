@@ -12,17 +12,17 @@ namespace Cole.Web.Controllers
 {
     public class CargosController : Controller
     {
-        private readonly DataContext _context;
+        private readonly ICargoRepository cargoRepository;
 
-        public CargosController(DataContext context)
+        public CargosController(ICargoRepository cargoRepository)
         {
-            _context = context;
+            this.cargoRepository = cargoRepository;
         }
 
         // GET: Cargoes
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Cargos.ToListAsync());
+            return View(this.cargoRepository.GetAll());
         }
 
         // GET: Cargoes/Details/5
@@ -33,8 +33,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var cargo = await _context.Cargos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cargo = await this.cargoRepository.GetByIdAsync(id.Value);
             if (cargo == null)
             {
                 return NotFound();
@@ -50,16 +49,13 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Cargoes/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,IdCiclo,LLaveRef,Plantel,Concepto,Total,Recargo,Abono,Saldo,FechaVencimiento")] Cargo cargo)
+        public async Task<IActionResult> Create(Cargo cargo)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cargo);
-                await _context.SaveChangesAsync();
+                await this.cargoRepository.CreateAsync(cargo);
                 return RedirectToAction(nameof(Index));
             }
             return View(cargo);
@@ -72,8 +68,7 @@ namespace Cole.Web.Controllers
             {
                 return NotFound();
             }
-
-            var cargo = await _context.Cargos.FindAsync(id);
+            var cargo = await this.cargoRepository.GetByIdAsync(id.Value);
             if (cargo == null)
             {
                 return NotFound();
@@ -82,27 +77,19 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Cargoes/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,IdCiclo,LLaveRef,Plantel,Concepto,Total,Recargo,Abono,Saldo,FechaVencimiento")] Cargo cargo)
+        public async Task<IActionResult> Edit(int id, Cargo cargo)
         {
-            if (id != cargo.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(cargo);
-                    await _context.SaveChangesAsync();
+                    await this.cargoRepository.UpdateAsync(cargo);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CargoExists(cargo.Id))
+                    if (!await this.cargoRepository.ExistAsync(cargo.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +111,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var cargo = await _context.Cargos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var cargo = await this.cargoRepository.GetByIdAsync(id.Value);
             if (cargo == null)
             {
                 return NotFound();
@@ -139,15 +125,14 @@ namespace Cole.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var cargo = await _context.Cargos.FindAsync(id);
-            _context.Cargos.Remove(cargo);
-            await _context.SaveChangesAsync();
+            var cargo = await this.cargoRepository.GetByIdAsync(id);
+            await this.cargoRepository.DeleteAsync(cargo);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CargoExists(int id)
+        /*private bool CargoExists(int id)
         {
-            return _context.Cargos.Any(e => e.Id == id);
-        }
+            return cargoRepository.ExistAsync(e => e.Id == id);
+        }*/
     }
 }

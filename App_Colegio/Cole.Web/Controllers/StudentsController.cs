@@ -12,17 +12,17 @@ namespace Cole.Web.Controllers
 {
     public class StudentsController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IStudentRepository studentRepository;
 
-        public StudentsController(DataContext context)
+        public StudentsController(IStudentRepository studentRepository)
         {
-            _context = context;
+            this.studentRepository = studentRepository;
         }
 
         // GET: Students
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Students.ToListAsync());
+            return View(this.studentRepository.GetAll());
         }
 
         // GET: Students/Details/5
@@ -33,8 +33,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var student = await this.studentRepository.GetByIdAsync(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -50,16 +49,13 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Students/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Create(Student student)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(student);
-                await _context.SaveChangesAsync();
+                await this.studentRepository.CreateAsync(student);
                 return RedirectToAction(nameof(Index));
             }
             return View(student);
@@ -73,7 +69,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students.FindAsync(id);
+            var student = await this.studentRepository.GetByIdAsync(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -82,27 +78,19 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Students/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Persona_Id,Clave_Plantel,Plantel,Matricula,Clave_Familia,Apellido_Paterno,Apellido_Materno,Nombres,Nivel,Grado,Grupo")] Student student)
+        public async Task<IActionResult> Edit(int id,  Student student)
         {
-            if (id != student.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(student);
-                    await _context.SaveChangesAsync();
+                    await this.studentRepository.UpdateAsync(student);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!StudentExists(student.Id))
+                    if (!await this.studentRepository.ExistAsync(student.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +112,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var student = await _context.Students
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var student = await this.studentRepository.GetByIdAsync(id.Value);
             if (student == null)
             {
                 return NotFound();
@@ -139,15 +126,14 @@ namespace Cole.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var student = await _context.Students.FindAsync(id);
-            _context.Students.Remove(student);
-            await _context.SaveChangesAsync();
+            var student = await this.studentRepository.GetByIdAsync(id);
+            await this.studentRepository.DeleteAsync(student);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StudentExists(int id)
-        {
-            return _context.Students.Any(e => e.Id == id);
-        }
+        //private bool StudentExists(int id)
+        //{
+        //    return _context.Students.Any(e => e.Id == id);
+        //}
     }
 }

@@ -12,17 +12,17 @@ namespace Cole.Web.Controllers
 {
     public class PagosController : Controller
     {
-        private readonly DataContext _context;
+        private readonly IPagoRepository pagoRepository;
 
-        public PagosController(DataContext context)
+        public PagosController(IPagoRepository pagoRepository)
         {
-            _context = context;
+            this.pagoRepository = pagoRepository;
         }
 
         // GET: Pagos
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await _context.Pagos.ToListAsync());
+            return View(this.pagoRepository.GetAll());
         }
 
         // GET: Pagos/Details/5
@@ -33,8 +33,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var pago = await _context.Pagos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var pago = await this.pagoRepository.GetByIdAsync(id.Value);
             if (pago == null)
             {
                 return NotFound();
@@ -50,16 +49,13 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Pagos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,LLaveRef_Enc,Folio,Serie_Factura,Factura,Importe,Descuento,Abono,Recargo,TotalAbono,FechaAbono,TipoPago,Banco,Referencia,Estatus")] Pago pago)
+        public async Task<IActionResult> Create(Pago pago)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pago);
-                await _context.SaveChangesAsync();
+                await this.pagoRepository.CreateAsync(pago);
                 return RedirectToAction(nameof(Index));
             }
             return View(pago);
@@ -73,7 +69,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var pago = await _context.Pagos.FindAsync(id);
+            var pago = await this.pagoRepository.GetByIdAsync(id.Value);
             if (pago == null)
             {
                 return NotFound();
@@ -82,27 +78,19 @@ namespace Cole.Web.Controllers
         }
 
         // POST: Pagos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,LLaveRef_Enc,Folio,Serie_Factura,Factura,Importe,Descuento,Abono,Recargo,TotalAbono,FechaAbono,TipoPago,Banco,Referencia,Estatus")] Pago pago)
+        public async Task<IActionResult> Edit(int id, Pago pago)
         {
-            if (id != pago.Id)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(pago);
-                    await _context.SaveChangesAsync();
+                    await this.pagoRepository.UpdateAsync(pago);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PagoExists(pago.Id))
+                    if (!await this.pagoRepository.ExistAsync(pago.Id))
                     {
                         return NotFound();
                     }
@@ -124,8 +112,7 @@ namespace Cole.Web.Controllers
                 return NotFound();
             }
 
-            var pago = await _context.Pagos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var pago = await this.pagoRepository.GetByIdAsync(id.Value);
             if (pago == null)
             {
                 return NotFound();
@@ -139,15 +126,14 @@ namespace Cole.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pago = await _context.Pagos.FindAsync(id);
-            _context.Pagos.Remove(pago);
-            await _context.SaveChangesAsync();
+            var pago = await this.pagoRepository.GetByIdAsync(id);
+            await this.pagoRepository.DeleteAsync(pago);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PagoExists(int id)
-        {
-            return _context.Pagos.Any(e => e.Id == id);
-        }
+        //private bool PagoExists(int id)
+        //{
+        //    return _context.Pagos.Any(e => e.Id == id);
+        //}
     }
 }

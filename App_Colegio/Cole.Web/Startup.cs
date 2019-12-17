@@ -32,12 +32,13 @@
                 cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
             });
             //inyectar el Repository
+            services.AddTransient<SeedDb>();            
             //AddScoped = La Inyeccion queda permante
-            //services.AddScoped<ITutorRepository, TutorRepository>();
+            services.AddScoped<ITutorRepository, TutorRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
-            //services.AddScoped<IGrupoRepository, GrupoRepository>();
-            //services.AddScoped<ICargoRepository, CargoRepository>();
-            //services.AddScoped<IPagoRepository, PagoRepository>();
+            services.AddScoped<IGrupoRepository, GrupoRepository>();
+            services.AddScoped<ICargoRepository, CargoRepository>();
+            services.AddScoped<IPagoRepository, PagoRepository>();
 
             services.AddScoped<IUserHelper, UserHelper>();
             //Configuracion de Usuarios:
