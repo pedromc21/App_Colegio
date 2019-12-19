@@ -60,10 +60,10 @@ namespace Cole.Web.Migrations
                     LLaveRef = table.Column<int>(nullable: false),
                     Plantel = table.Column<string>(maxLength: 50, nullable: false),
                     Concepto = table.Column<string>(maxLength: 250, nullable: false),
-                    Total = table.Column<decimal>(nullable: false),
-                    Recargo = table.Column<decimal>(nullable: false),
-                    Abono = table.Column<decimal>(nullable: false),
-                    Saldo = table.Column<decimal>(nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    Recargo = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    Abono = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    Saldo = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     FechaVencimiento = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -97,11 +97,11 @@ namespace Cole.Web.Migrations
                     Folio = table.Column<string>(maxLength: 50, nullable: false),
                     Serie_Factura = table.Column<string>(maxLength: 50, nullable: false),
                     Factura = table.Column<string>(maxLength: 50, nullable: false),
-                    Importe = table.Column<decimal>(nullable: false),
-                    Descuento = table.Column<decimal>(nullable: false),
-                    Abono = table.Column<decimal>(nullable: false),
-                    Recargo = table.Column<decimal>(nullable: false),
-                    TotalAbono = table.Column<decimal>(nullable: false),
+                    Importe = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    Descuento = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    Abono = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    Recargo = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
+                    TotalAbono = table.Column<decimal>(type: "decimal(12,2)", nullable: false),
                     FechaAbono = table.Column<DateTime>(nullable: false),
                     TipoPago = table.Column<string>(maxLength: 50, nullable: false),
                     Banco = table.Column<string>(maxLength: 50, nullable: false),
@@ -111,6 +111,20 @@ namespace Cole.Web.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pagos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Periods",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Periodo_Id = table.Column<int>(nullable: false),
+                    Ciclo_Escolar = table.Column<string>(maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Periods", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -338,6 +352,9 @@ namespace Cole.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Pagos");
+
+            migrationBuilder.DropTable(
+                name: "Periods");
 
             migrationBuilder.DropTable(
                 name: "Students");

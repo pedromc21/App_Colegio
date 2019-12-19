@@ -139,6 +139,23 @@ namespace Cole.Web.Migrations
                     b.ToTable("Pagos");
                 });
 
+            modelBuilder.Entity("Cole.Web.Data.Entities.Period", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Ciclo_Escolar")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Periodo_Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Periods");
+                });
+
             modelBuilder.Entity("Cole.Web.Data.Entities.Student", b =>
                 {
                     b.Property<int>("Id")

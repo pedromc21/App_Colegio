@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cole.Web.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20191216185213_Period")]
-    partial class Period
+    [Migration("20191219154518_InitialDb")]
+    partial class InitialDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -139,6 +139,23 @@ namespace Cole.Web.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Pagos");
+                });
+
+            modelBuilder.Entity("Cole.Web.Data.Entities.Period", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Ciclo_Escolar")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<int>("Periodo_Id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Periods");
                 });
 
             modelBuilder.Entity("Cole.Web.Data.Entities.Student", b =>

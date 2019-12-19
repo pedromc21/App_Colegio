@@ -7,7 +7,8 @@
     {
         //Clase para ayudar a transportar de proyecto a proyecto
         Task<User> GetUserByEmailAsync(string email);
-        Task<IdentityResult> UpdateUserAsync(User user, string password);
+
+        Task<IdentityResult> AddUserAsync(User user, string password);
 
     }
 }

@@ -15,7 +15,7 @@
         [HttpGet]
         public IActionResult GetTutors()
         {
-            return Ok(this.tutorRepository.GetAll());
+            return Ok(this.tutorRepository.GetAllWithUsers());
         }
     }
 }

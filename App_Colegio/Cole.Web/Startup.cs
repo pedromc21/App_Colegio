@@ -27,20 +27,6 @@
              dotnet ef database update
             dotnet ef migrations add InitialDb
             dotnet ef database update*/
-            services.AddDbContext<DataContext>(cfg =>
-            {
-                cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
-            });
-            //inyectar el Repository
-            services.AddTransient<SeedDb>();            
-            //AddScoped = La Inyeccion queda permante
-            services.AddScoped<ITutorRepository, TutorRepository>();
-            services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IGrupoRepository, GrupoRepository>();
-            services.AddScoped<ICargoRepository, CargoRepository>();
-            services.AddScoped<IPagoRepository, PagoRepository>();
-
-            services.AddScoped<IUserHelper, UserHelper>();
             //Configuracion de Usuarios:
             services.AddIdentity<User, IdentityRole>(cfg =>
             {
@@ -53,6 +39,21 @@
                 cfg.Password.RequiredLength = 6;
             })
                 .AddEntityFrameworkStores<DataContext>();
+
+            services.AddDbContext<DataContext>(cfg =>
+            {
+                cfg.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"));
+            });
+            //inyectar el Repository
+            services.AddTransient<SeedDb>();
+            //AddScoped = La Inyeccion queda permante
+            services.AddScoped<IUserHelper, UserHelper>();
+            services.AddScoped<ITutorRepository, TutorRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IGrupoRepository, GrupoRepository>();
+            services.AddScoped<ICargoRepository, CargoRepository>();
+            services.AddScoped<IPagoRepository, PagoRepository>();
+            services.AddScoped<IPeriodRepository, PeriodRepository>();
 
             services.Configure<CookiePolicyOptions>(options =>
             {

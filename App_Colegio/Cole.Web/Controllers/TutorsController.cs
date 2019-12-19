@@ -1,9 +1,9 @@
 ﻿
 namespace Cole.Web.Controllers
 {
-    using Cole.Web.Data;
-    using Cole.Web.Data.Entities;
-    using Cole.Web.Helpers;
+    using Data;
+    using Data.Entities;
+    using Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using System.Linq;
@@ -22,7 +22,7 @@ namespace Cole.Web.Controllers
         // GET: Tutors
         public IActionResult Index()
         {
-            return View(this.tutorRepository.GetAll());
+            return View(this.tutorRepository.GetAll().OrderBy(p => p.Nombres));
         }
 
         // GET: Tutors/Details/5
@@ -57,7 +57,7 @@ namespace Cole.Web.Controllers
             {
                 //TODO: CHANGE FOR THE LOGGER USER
                 //TODO: SON CAMBIOS PENDIENTES QUE SE PUEDEN VER DESDE EL TAG LIST DESDE EL MENU VIEW->TASK LIST
-                tutor.User = await this.userHelper.GetUserByEmailAsync("pedromc219@gmail.com");
+                tutor.User = await this.userHelper.GetUserByEmailAsync("invernaderosjc@hotmail.com");
                 await this.tutorRepository.CreateAsync(tutor);
                 return RedirectToAction(nameof(Index));
             }
@@ -90,7 +90,7 @@ namespace Cole.Web.Controllers
                 try
                 {
                     //TODO: CHANGE FOR THE LOGGER USER
-                    tutor.User = await this.userHelper.GetUserByEmailAsync("pedromc219@gmail.com");
+                    tutor.User = await this.userHelper.GetUserByEmailAsync("invernaderosjc@hotmail.com");
                     await this.tutorRepository.UpdateAsync(tutor);
                 }
                 catch (DbUpdateConcurrencyException)
