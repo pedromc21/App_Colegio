@@ -1,15 +1,20 @@
-﻿namespace Cole.UIForms
-{
-    using Cole.UIForms.Views;
-    using Xamarin.Forms;
+﻿using Cole.UIForms.ViewModels;
+using Cole.UIForms.Views;
+using System;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
+//[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
+namespace Cole.UIForms
+{
+  
     public partial class App : Application
     {
         public App()
         {
             InitializeComponent();
-
-            MainPage = new NavigationPage(new LoginPage());
+            MainViewModel.GetInstance().Login = new LoginViewModel();
+            this.MainPage = new NavigationPage(new LoginPage());
         }
 
         protected override void OnStart()
